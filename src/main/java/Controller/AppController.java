@@ -9,11 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
 public class AppController {
 
     @FXML private Button vRefresh;
@@ -84,7 +79,6 @@ public class AppController {
         vSettingsMenuButton.setOnAction((event) -> {
 
             try{
-
                 Stage newStage = new Stage();
 
                 FXMLLoader loader = new FXMLLoader(Application.class.getResource("/fxml/Settings.fxml"));
@@ -93,7 +87,6 @@ public class AppController {
                 newStage.setScene(scene);
                 newStage.setTitle("Todo: Settings");
                 newStage.show();
-
             }catch (Exception ex){
                 ex.printStackTrace();
             }
@@ -101,35 +94,6 @@ public class AppController {
         });
 
         vAboutMenuButton.setOnAction((event) -> {
-
-            Connection c = null;
-            Statement stmt = null;
-            try {
-                Class.forName("org.sqlite.JDBC");
-                c = DriverManager.getConnection("jdbc:sqlite:tasks.db");
-                c.setAutoCommit(false);
-                System.out.println("Opened database successfully");
-
-                stmt = c.createStatement();
-                ResultSet rs = stmt.executeQuery( "SELECT * FROM tasks;" );
-
-                while ( rs.next() ) {
-                    int id = rs.getInt("id");
-                    String  name = rs.getString("description");
-
-                    System.out.println( "ID = " + id );
-                    System.out.println( "DESCRIPTION = " + name );
-                    System.out.println();
-                }
-                rs.close();
-                stmt.close();
-                c.close();
-            } catch ( Exception e ) {
-                System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-                System.exit(0);
-            }
-            System.out.println("Operation done successfully");
-
             try{
 
                 Stage newStage = new Stage();
