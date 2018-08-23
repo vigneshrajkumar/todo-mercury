@@ -3,20 +3,12 @@ package Controller;
 import Model.Task;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 public class AppController {
-
-    @FXML private MenuItem vSettingsMenuButton;
-    @FXML private MenuItem vAboutMenuButton;
-    @FXML private TextField vTask;
+        @FXML private TextField vTask;
     @FXML private ListView<Task> vTaskList;
     @FXML private Button vAdd;
-
 
     @FXML
     private void initialize(){
@@ -60,6 +52,7 @@ public class AppController {
             deleteTask.setText("Delete Task");
             menu.getItems().add(deleteTask);
 
+
             // explore this
             cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
                 if (isNowEmpty) {
@@ -72,39 +65,7 @@ public class AppController {
             return cell;
         });
 
-        vSettingsMenuButton.setOnAction((event) -> {
-
-            try{
-                Stage newStage = new Stage();
-
-                FXMLLoader loader = new FXMLLoader(Application.class.getResource("/fxml/Settings.fxml"));
-                AnchorPane page = (AnchorPane) loader.load();
-                Scene scene = new Scene(page);
-                newStage.setScene(scene);
-                newStage.setTitle("Todo: Settings");
-                newStage.show();
-            }catch (Exception ex){
-                ex.printStackTrace();
-            }
-
-        });
-
-        vAboutMenuButton.setOnAction((event) -> {
-            try{
-
-                Stage newStage = new Stage();
-
-                FXMLLoader loader = new FXMLLoader(Application.class.getResource("/fxml/About.fxml"));
-                AnchorPane page = (AnchorPane) loader.load();
-                Scene scene = new Scene(page);
-                newStage.setScene(scene);
-                newStage.setTitle("Todo: About");
-                newStage.show();
-
-            }catch (Exception ex){
-                ex.printStackTrace();
-            }
-        });
+        refreshListView();
     }
 
     private void refreshListView(){

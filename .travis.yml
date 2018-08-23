@@ -5,3 +5,6 @@ deploy:
   file: rls
   on:
     repo: vigneshrajkumar/todo-mercury
+  skip_cleanup: true
+  on:
+    tags: true

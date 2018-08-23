@@ -11,95 +11,69 @@ import java.util.List;
 
 public class Datastore {
 
-    public static void initializeStorage(){
+    private static Connection cxn = null;
+    private static Statement sqlStatement = null;
 
-        System.out.println("initializing storage");
-
-        Connection c = null;
-        Statement stmt = null;
-
+    private static void executeQuery(String query){
         try {
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:tasks.db");
-
-            stmt = c.createStatement();
-            String sql = "CREATE TABLE tasks (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, description TEXT NOT NULL);";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            c.close();
+            cxn = DriverManager.getConnection("jdbc:sqlite:tasks.db");
+            sqlStatement = cxn.createStatement();
+            sqlStatement.executeUpdate(query);
+            sqlStatement.close();
+            cxn.close();
 
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
+    }
 
+    private static ResultSet executeQueryWithResult(String query){
+        ResultSet result = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            cxn = DriverManager.getConnection("jdbc:sqlite:tasks.db");
+            cxn.setAutoCommit(false);
+            sqlStatement = cxn.createStatement();
+            result = sqlStatement.executeQuery( "SELECT id, description FROM tasks;" );
+            result.close();
+            sqlStatement.close();
+            cxn.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        return result;
+    }
+
+    public static void initializeStorage(){
+        System.out.println("initializing storage");
+        executeQuery("CREATE TABLE tasks (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, description TEXT NOT NULL);");
         System.out.println("Tables created successfully");
     }
 
     public static void addTask(Task task){
-
-        Connection c = null;
-        Statement stmt = null;
-
-        try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:tasks.db");
-            c.setAutoCommit(false);
-
-            stmt = c.createStatement();
-            String sql = "insert into tasks ('description') values ('" + task.getDescription() + "')";
-            stmt.executeUpdate(sql);
-
-            stmt.close();
-            c.commit();
-            c.close();
-        } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);
-        }
+        executeQuery("insert into tasks ('description') values ('" + task.getDescription() + "')");
         System.out.println("Record created successfully");
-
     }
 
     public static void deleteTask(int id){
-
-        Connection c = null;
-        Statement stmt = null;
-
-        try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:tasks.db");
-            c.setAutoCommit(false);
-
-            stmt = c.createStatement();
-            String sql = "DELETE FROM tasks WHERE id = "+ id +";";
-            stmt.executeUpdate(sql);
-
-            stmt.close();
-            c.commit();
-            c.close();
-        } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);
-        }
+        executeQuery("DELETE FROM tasks WHERE id = "+ id +";");
         System.out.println("Record deleted successfully");
-
     }
 
     public static List<Task> getTasks(){
 
         List<Task> tasks = new ArrayList<>();
 
-        Connection c = null;
-        Statement stmt = null;
-
         try {
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:tasks.db");
-            c.setAutoCommit(false);
+            cxn = DriverManager.getConnection("jdbc:sqlite:tasks.db");
+            cxn.setAutoCommit(false);
 
-            stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery( "SELECT id, description FROM tasks;" );
+            sqlStatement = cxn.createStatement();
+            ResultSet rs = sqlStatement.executeQuery( "SELECT id, description FROM tasks;" );
 
             while ( rs.next() ) {
                 int id = rs.getInt("id");
@@ -107,14 +81,13 @@ public class Datastore {
                 tasks.add(new Task(id, description));
             }
             rs.close();
-            stmt.close();
-            c.close();
+            sqlStatement.close();
+            cxn.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
         System.out.println("Record(s) retrieved successfully");
         return tasks;
-
     }
 }
