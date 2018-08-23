@@ -5,10 +5,43 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class Application extends javafx.application.Application {
 
     public static void main(String[] args) {
+        appInit();
         launch(args);
+    }
+
+    private static void appInit() {
+
+        File f = new File("tasks.db");
+        if(f.exists() && !f.isDirectory()) {
+
+            System.out.println("DB found");
+
+        }else{
+            System.out.println("DB not found");
+
+            try {
+
+                if(!f.createNewFile()){
+                    System.out.println("DB file creation error");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Datastore.initializeStorage();
+
+        }
     }
 
     @Override
@@ -26,25 +59,4 @@ public class Application extends javafx.application.Application {
             ex.printStackTrace();
         }
     }
-
-
-
-//    public void vAdd(ActionEvent actionEvent) {
-//
-//        String taskDescription = vTask.getText();
-//        vTask.setText("");
-//        vTaskList.getItems().add(new Task(taskDescription));
-//
-//        ContextMenu contextMenu = new ContextMenu();
-//        MenuItem deleteItem = new MenuItem();
-//        deleteItem.setOnAction(di -> {
-//            vTaskList.getItems().remove(vTaskList.getFocusModel().getFocusedIndex());
-//            System.out.println("deleting" + vTaskList.getFocusModel().getFocusedIndex());
-//        });
-//
-//        deleteItem.textProperty().setValue("Delete Task");
-//        contextMenu.getItems().addAll(deleteItem);
-//        vTaskList.setContextMenu(contextMenu);
-//
-//    }
 }

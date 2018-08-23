@@ -1,44 +1,29 @@
 package Model;
 
-public class Task  {
-    private static int counter;
+import java.util.Observable;
+
+public class Task extends Observable {
     private int ID;
-    private boolean isChecked;
     private String description;
 
-    public Task(String description) {
-        this.ID = ++counter;
+    public Task(int ID, String description) {
+        this.ID = ID;
         this.description = description;
-    }
-
-
-    public void Check(){
-        if (isChecked){
-            isChecked = false;
-        }else{
-            isChecked = true;
-        }
     }
 
     public String getDescription() {
         return description;
     }
 
-    public boolean isChecked() {
-        return isChecked;
+    public int getID() {
+        return ID;
     }
-
-//    @Override
-//    public String toString() {
-//        return "Task{" +
-//                "ID=" + ID +
-//                ", isChecked=" + isChecked +
-//                ", description='" + description + '\'' +
-//                '}';
-//    }
 
     @Override
     public String toString() {
-        return description;
+        return "Task{" +
+                "ID=" + ID +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
