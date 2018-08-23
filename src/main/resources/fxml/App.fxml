@@ -24,21 +24,17 @@
             </MenuBar>
 
             <HBox prefWidth="280.0">
-                <TextField fx:id="vTask" prefHeight="27.0" prefWidth="378.0">
+                <TextField fx:id="vTask" prefHeight="27.0" prefWidth="465.0">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin></TextField>
+                
                 <Button fx:id="vAdd" text="Add">
                    <HBox.margin>
                       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                    </HBox.margin>
                 </Button>
 
-                <Button fx:id="vRefresh" text="Refresh">
-                    <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </HBox.margin>
-                </Button>
             </HBox>
 
             <ListView fx:id="vTaskList">

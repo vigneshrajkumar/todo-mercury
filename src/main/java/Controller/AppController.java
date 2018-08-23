@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 public class AppController {
 
-    @FXML private Button vRefresh;
     @FXML private MenuItem vSettingsMenuButton;
     @FXML private MenuItem vAboutMenuButton;
     @FXML private TextField vTask;
@@ -30,6 +29,7 @@ public class AppController {
             }
             Datastore.addTask(new Task(-1, vTask.getText()));
             vTask.setText("");
+            refreshListView();
         });
 
         // press enter action
@@ -39,12 +39,7 @@ public class AppController {
             }
             Datastore.addTask(new Task(-1, vTask.getText()));
             vTask.setText("");
-        });
-        
-        vRefresh.setOnAction(event -> {
-            // TODO::vr Operation to expensive, need to optimize
-            vTaskList.getItems().removeAll(vTaskList.getItems());
-            vTaskList.getItems().addAll(Datastore.getTasks());
+            refreshListView();
         });
 
         vTaskList.setCellFactory(param -> {
@@ -59,6 +54,7 @@ public class AppController {
             MenuItem deleteTask = new MenuItem();
             deleteTask.setOnAction(del -> {
                 Datastore.deleteTask(vTaskList.getSelectionModel().getSelectedItem().getID());
+                refreshListView();
             });
 
             deleteTask.setText("Delete Task");
@@ -109,5 +105,11 @@ public class AppController {
                 ex.printStackTrace();
             }
         });
+    }
+
+    private void refreshListView(){
+        // TODO::vr Operation to expensive, need to optimize
+        vTaskList.getItems().removeAll(vTaskList.getItems());
+        vTaskList.getItems().addAll(Datastore.getTasks());
     }
 }
