@@ -48,7 +48,7 @@ public class AppController {
         
         vRefresh.setOnAction(event -> {
             // TODO::vr Operation to expensive, need to optimize
-            vTaskList.getItems().removeAll();
+            vTaskList.getItems().removeAll(vTaskList.getItems());
             vTaskList.getItems().addAll(Datastore.getTasks());
         });
 
