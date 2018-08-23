@@ -1,0 +1,7 @@
+deploy:
+  provider: releases
+  api_key:
+    secure: XLAyDbrW2Ef09kD0ulj0rBwQfVU6X6d4EPLchl1sSmapan8vH+xFfQy+wINN9lFpcVeg03M2aYpySKFnKTwGdg+pFTrOuE06R+hwN6pzwjCQW3ClMixDyF5JRmaGB/Wz6+fYQIZGf/k3NWkbl8kdf2M7xC2cDg8mlJqLexGXni7FvDvS06kho0Tyi9EiDc9cyqa+rDZmcLUf+OYyTSW3Dy5qPQKuydcWUGgk2n8AOowNiLGS1lN5ixk+swptQEc79mPRevU/R01cBW2kQdyrjvu9+J4LVFrzx2rauGjRCns3V8FIp/0XUS0Qlhceg+20w+DEcwIxoenFIffiySO5o6x2fWSF2yDxiUjM35RIB+TZw7zmzuFUWoXQMvrlnJKECvbefFaPaE+H18e44dGnB4JAG7dFRPSkT7LGengW8J/pFKCCm4kinwmyRMmjd4mGN2fLi3fujli9iiFqqVk+mtWvEzu6rl4sCGaQcvTLrY6avf0i4RrjSPsIz5+SNDum/yi5c0R0TNlh3EZk3JeGBzE+w3TiAEtexHcClkn8ZVCZruASX8TKmjGCDSfgG0isTSlI64ZVie8hF3N35yLv8Rx9jl7ZSgbjyv8hP/lIp8cgGZtDvPGSQ2qpKY+zjFjyimDRBANK8lUXUSnJVgLZuWl+Sk+2Hs1BpTVem4VXHDY=
+  file: rls
+  on:
+    repo: vigneshrajkumar/todo-mercury
