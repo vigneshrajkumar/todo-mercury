@@ -21,9 +21,11 @@ public class Task extends Observable {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "ID=" + ID +
-                ", description='" + description + '\'' +
-                '}';
+//        return "Task{" +
+//                "ID=" + ID +
+//                ", description='" + description + '\'' +
+//                '}';
+
+        return description;
     }
 }
